@@ -268,7 +268,7 @@
         let carNo = $(id).attr('id');
         let modelId = makeid(5);
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/car/" + carNo,
+            url: "carsys.azurewebsites.net/api/v1/car/" + carNo,
             method: "GET",
             contentType: "application/json",
             success: function (resp) {
@@ -333,7 +333,7 @@
         let ret = $('#carReturnDate').val();
         if ($('#needDriver').is(":checked")) {
             $.ajax({
-                url: "http://localhost:8080/CarRentalSystem/api/v1/driver/find?fromDate=" + pik + "&toDate=" + ret + "",
+                url: "carsys.azurewebsites.net/api/v1/driver/find?fromDate=" + pik + "&toDate=" + ret + "",
                 method: "get",
                 success: function (resp) {
                     if (resp.state === true) {
@@ -390,7 +390,7 @@
         }
 
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/rent",
+            url: "carsys.azurewebsites.net/api/v1/rent",
             method: "post",
             contentType: "application/json",
             data: JSON.stringify(reqData),
@@ -422,7 +422,7 @@
         let carType = $('#carType').val();
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/CarRentalSystem/api/v1/car/find?fromDate=" + pickupDate + "&toDate=" + returnDate + "&type=" + carType + "",
+            url: "carsys.azurewebsites.net/api/v1/car/find?fromDate=" + pickupDate + "&toDate=" + returnDate + "&type=" + carType + "",
             success: function (resp) {
                 $('#carGallery').empty();
                 let arr = resp.data;
@@ -475,7 +475,7 @@
         let driverID = $(id).text();
         let driverModelId = makeid(8);
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/driver/" + driverID,
+            url: "carsys.azurewebsites.net/api/v1/driver/" + driverID,
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
@@ -527,7 +527,7 @@
 
         $('#reservedTableBody').empty();
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/rent/" + $.cookie('user-id'),
+            url: "carsys.azurewebsites.net/api/v1/rent/" + $.cookie('user-id'),
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {

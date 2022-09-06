@@ -89,7 +89,7 @@
         let pass = $('#userPassword').val();
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/CarRentalSystem/api/v1/user/?email=" + email + "&password=" + pass,
+            url: "carsys.azurewebsites.net/api/v1/user/?email=" + email + "&password=" + pass,
             contentType: "application/json",
             success: function (resp) {
                 if (resp.state === true) {

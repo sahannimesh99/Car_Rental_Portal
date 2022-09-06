@@ -18,7 +18,7 @@ function registerUser() {
     };
 
     $.ajax({
-        url: "http://localhost:8080/CarRentalSystem/api/v1/user",
+        url: "carsys.azurewebsites.net/api/v1/user",
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(userData),
@@ -43,7 +43,7 @@ $('#but_upload').click(function () {
     frmdata.append('file[]',$('#fileLicB')[0].files[0]);
     frmdata.append('nic',$('#userNic').val());
     $.ajax({
-        url: "http://localhost:8080/CarRentalSystem/api/v1/user/upload",
+        url: "carsys.azurewebsites.net/api/v1/user/upload",
         type: "post",
         data: frmdata,
         contentType: false,

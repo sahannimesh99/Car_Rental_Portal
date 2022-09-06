@@ -487,7 +487,7 @@
         let reqId = $('#RequestId').val();
         let reason = $("#rejectReason").val();
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/rent/?reqId=" + reqId + "&state=" + v + "&reason=" + reason,
+            url: "carsys.azurewebsites.net/api/v1/rent/?reqId=" + reqId + "&state=" + v + "&reason=" + reason,
             type: "PUT",
             success: function (resp) {
                 if (resp.state === true) {
