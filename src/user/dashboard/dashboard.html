@@ -238,7 +238,7 @@
 <script>
     function checkAuth() {
         if (!!$.cookie('user-id')) {
-            $('#main-title').text(`Hi, ${$.cookie('user-email').split('@')[0]}`);
+            $('#main-title').text(`Hi, ${localStorage.getItem("name")}`);
         } else {
             location.href = '../login.html';
         }
@@ -268,7 +268,7 @@
         let carNo = $(id).attr('id');
         let modelId = makeid(5);
         $.ajax({
-            url: "carsys.azurewebsites.net/api/v1/car/" + carNo,
+            url: "https://carsys.azurewebsites.net/api/v1/car/" + carNo,
             method: "GET",
             contentType: "application/json",
             success: function (resp) {
@@ -333,7 +333,7 @@
         let ret = $('#carReturnDate').val();
         if ($('#needDriver').is(":checked")) {
             $.ajax({
-                url: "carsys.azurewebsites.net/api/v1/driver/find?fromDate=" + pik + "&toDate=" + ret + "",
+                url: "https://carsys.azurewebsites.net/api/v1/driver/find?fromDate=" + pik + "&toDate=" + ret + "",
                 method: "get",
                 success: function (resp) {
                     if (resp.state === true) {
@@ -354,12 +354,12 @@
         let reqData;
         if ($('#needDriver').is(":checked")) {
             reqData = {
-                palaceDate: new Date(),
                 fromDate: $('#carPickUpDate').val(),
+                palaceDate: new Date(),
                 toDate: $('#carReturnDate').val(),
                 pickUpNote: $('#carPickUpNote').val(),
                 returnNote: $('#carReturnNote').val(),
-                waiverAmount: $('#waiverAmount').val(),
+                waiverAmount: Number($('#waiverAmount').val()),
                 state: "Pending",
                 customer: {
                     nic: $('#userId').val()
@@ -368,29 +368,32 @@
                     regNo: $('#vehicleId').val()
                 },
                 driver: {
-                    nic: $('#driverId').val()
+
                 }
             };
         } else {
             reqData = {
-                palaceDate: new Date(),
                 fromDate: $('#carPickUpDate').val(),
+                palaceDate: new Date(),
                 toDate: $('#carReturnDate').val(),
                 pickUpNote: $('#carPickUpNote').val(),
                 returnNote: $('#carReturnNote').val(),
-                waiverAmount: $('#waiverAmount').val(),
+                waiverAmount: Number($('#waiverAmount').val()),
                 state: "Pending",
                 customer: {
                     nic: $('#userId').val()
                 },
                 car: {
                     regNo: $('#vehicleId').val()
+                },
+                diver:{
+
                 }
             };
         }
 
         $.ajax({
-            url: "carsys.azurewebsites.net/api/v1/rent",
+            url: "https://carsys.azurewebsites.net/api/v1/rent",
             method: "post",
             contentType: "application/json",
             data: JSON.stringify(reqData),
@@ -422,7 +425,7 @@
         let carType = $('#carType').val();
         $.ajax({
             type: "GET",
-            url: "carsys.azurewebsites.net/api/v1/car/find?fromDate=" + pickupDate + "&toDate=" + returnDate + "&type=" + carType + "",
+            url: "https://carsys.azurewebsites.net/api/v1/car/find?fromDate=" + pickupDate + "&toDate=" + returnDate + "&type=" + carType + "",
             success: function (resp) {
                 $('#carGallery').empty();
                 let arr = resp.data;
@@ -475,7 +478,7 @@
         let driverID = $(id).text();
         let driverModelId = makeid(8);
         $.ajax({
-            url: "carsys.azurewebsites.net/api/v1/driver/" + driverID,
+            url: "https://carsys.azurewebsites.net/api/v1/driver/" + driverID,
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
@@ -527,7 +530,7 @@
 
         $('#reservedTableBody').empty();
         $.ajax({
-            url: "carsys.azurewebsites.net/api/v1/rent/" + $.cookie('user-id'),
+            url: "https://carsys.azurewebsites.net/api/v1/rent/" + $.cookie('user-id'),
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
