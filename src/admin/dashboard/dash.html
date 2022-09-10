@@ -20,7 +20,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12 p-5">
-            <h1 id="main-title"><i aria-hidden="true" class="fa fa-tachometer-alt"></i> Hi, Easy Car Rental System</h1>
+            <h1 id="main-title"><i aria-hidden="true" class="fa fa-tachometer-alt"></i> Hi, UnCommon Car-Rents</h1>
             <hr/>
         </div>
     </div>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
-            <a class="text-decoration-none" href="#">
+            <a class="text-decoration-none" onclick="adminDriverSectionPane()" role="button">
                 <div class="card p-3 shadow bg-purple text-center border-0">
                     <div class="card-body">
                         <i aria-hidden="true" class="fa fa-user-friends fa-2x"></i>
@@ -408,6 +408,80 @@
     </table>
 </div>
 
+<!--driver-->
+
+<div class="container" id="driverSection" style="padding: 10px; background-color: #f5f5f5; display: none;">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" onclick="function showDriverAddModel() {
+            $('#adminDriverAddModel').modal('show');
+        }
+        showDriverAddModel()" type="button">Add Driver
+        </button>
+        <!-- Add a car   -->
+        <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
+             data-keyboard="false"
+             id="adminDriverAddModel" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel2">Add New Driver</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="driverNIC">NIC</label>
+                                <input class="form-control" id="driverNIC" placeholder="driver NIC No" type="text">
+                            </div>
+                            <div class="col">
+                                <label for="driverFullName">Full Name</label>
+                                <input class="form-control" id="driverFullName" placeholder="Driver Full Name" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="driverAddress">Address</label>
+                                <input class="form-control" id="driverAddress" placeholder="Driver Address" type="text">
+                            </div>
+                            <div class="col">
+                                <label for="driverContact">Contact</label>
+                                <input class="form-control" id="driverContact" placeholder="Driver Contact"
+                                       type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                        <button class="btn btn-warning" id="btnDriverUpdate" onclick="updateDriver()" type="button">Update
+                        </button>
+                        <button class="btn btn-primary" id="btnDriverSave" onclick="saveDriver()" type="button">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="container" style="padding: 10px; background-color: #f5f5f5; display: block;">
+        <table class="table table-hover">
+            <thead class="bg-purple text-white">
+            <tr>
+                <th scope="col">NIC</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Contact</th>
+            </tr>
+            </thead>
+            <tbody id="driverTableBody">
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
 <!--Javascript and jQuery-->
 <script src="../../assets/js/jquery-3.5.1.min.js"></script>
 <script src="../../assets/js/jquery.cookie.js"></script>
@@ -420,12 +494,14 @@
         $('#carSection').css('display', 'none');
         $('#customerSection').css('display', 'none');
         $('#requestSection').css('display', 'none');
+        $('#driverSection').css('display', 'none');
     }
 
     function adminCarSectionPane() {
         $('#mainDashboard').css('display', 'none');
         $('#carSection').css('display', 'block');
         $('#customerSection').css('display', 'none');
+        $('#driverSection').css('display', 'none');
         loadCarsToTable();
     }
 
@@ -434,6 +510,7 @@
         $('#mainDashboard').css('display', 'none');
         $('#carSection').css('display', 'none');
         $('#requestSection').css('display', 'none');
+        $('#driverSection').css('display', 'none');
         loadCustomersToTable();
     }
 
@@ -442,7 +519,17 @@
         $('#mainDashboard').css('display', 'none');
         $('#carSection').css('display', 'none');
         $('#requestSection').css('display', 'block');
+        $('#driverSection').css('display', 'none');
         loadRequestToTable();
+    }
+
+    function adminDriverSectionPane() {
+        $('#customerSection').css('display', 'none');
+        $('#mainDashboard').css('display', 'none');
+        $('#carSection').css('display', 'none');
+        $('#requestSection').css('display', 'none');
+        $('#driverSection').css('display', 'block');
+        loadDriversToTable();
     }
 
     $(document).on('click', '#carTableBody .btn-warning', function () {
@@ -487,10 +574,11 @@
         let reqId = $('#RequestId').val();
         let reason = $("#rejectReason").val();
         $.ajax({
-            url: "carsys.azurewebsites.net/api/v1/rent/?reqId=" + reqId + "&state=" + v + "&reason=" + reason,
+            url: "https://carsys.azurewebsites.net/api/v1/rent/?reqId=" + reqId + "&state=" + v + "&reason=" + reason,
             type: "PUT",
             success: function (resp) {
                 if (resp.state === true) {
+                    $("#mainDashboard").cleanData();
                     alert(resp.message);
                     loadRequestToTable();
                 }
@@ -518,7 +606,7 @@
             states: $('#carStates').val()
         };
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/car",
+            url: "https://carsys.azurewebsites.net/api/v1/car",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(carObj),
@@ -553,7 +641,7 @@
             states: $('#carStates').val()
         };
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/car",
+            url: "https://carsys.azurewebsites.net/api/v1/car",
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(carObj),
@@ -573,7 +661,7 @@
         let regNo = $($($(this).closest('tr')).children().get(0)).text();
         if (confirm("Atr you sure?? do you want to delete " + regNo)) {
             $.ajax({
-                url: "http://localhost:8080/CarRentalSystem/api/v1/car?id=" + regNo,
+                url: "https://carsys.azurewebsites.net/api/v1/car?id=" + regNo,
                 type: "DELETE",
                 success: function (resp) {
                     if (resp.state === true) {
@@ -591,7 +679,7 @@
     function loadCarsToTable() {
         $('#carTableBody').empty();
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/car",
+            url: "https://carsys.azurewebsites.net/api/v1/car/all",
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
@@ -626,7 +714,7 @@
     function loadCustomersToTable() {
         $('#customerTableBody').empty();
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/customer",
+            url: "https://carsys.azurewebsites.net/api/v1/customer",
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
@@ -646,6 +734,28 @@
         });
     }
 
+    function loadDriversToTable() {
+        $('#driverTableBody').empty();
+        $.ajax({
+            url: "https://carsys.azurewebsites.net/api/v1/driver/all",
+            type: "GET",
+            success: function (resp) {
+                if (resp.state === true) {
+                    let data = resp.data;
+                    for (let i in data) {
+                        $('#driverTableBody').append(`
+                        <tr>
+                            <td scope="row">${data[i].nic}</td>
+                            <td>${data[i].name}</td>
+                            <td>${data[i].address}</td>
+                            <td>${data[i].contact}</td>
+                        </tr>`);
+                    }
+                }
+            }
+        });
+    }
+
     $(document).on('click', '#requestTableBody .btn-info', function () {
         let id = $($($(this).closest('tr')).children().get(0)).text();
         $('#RequestId').val(id);
@@ -655,7 +765,7 @@
     function loadRequestToTable() {
         $('#requestTableBody').empty();
         $.ajax({
-            url: "http://localhost:8080/CarRentalSystem/api/v1/rent",
+            url: "https://carsys.azurewebsites.net/api/v1/rent/all",
             type: "GET",
             success: function (resp) {
                 if (resp.state === true) {
@@ -681,6 +791,67 @@
             }
         });
     }
+
+    function logOut() {
+        if (!!$.cookie('user-id') && !!$.cookie('user-email')) {
+            $.removeCookie('user-id', {path: '/'});
+            $.removeCookie('user-email', {path: '/'});
+            location.href = '../../user/login.html';
+        } else {
+            location.href = '../../user/login.html';
+        }
+    }
+
+    function saveDriver() {
+
+        let driverObj = {
+            nic: $('#driverNIC').val(),
+            fullName: $('#driverFullName').val(),
+            address: $('#driverAddress').val(),
+            contact: $('#driverContact').val(),
+        };
+        $.ajax({
+            url: "https://carsys.azurewebsites.net/api/v1/driver",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(driverObj),
+            success: function (resp) {
+                if (resp.state === true) {
+                    alert(resp.message);
+                    $('#adminDriverAddModel').modal('hide');
+                    loadCarsToTable();
+                } else {
+                    alert(resp.message);
+                }
+            }
+        });
+    }
+
+    function updateDriver() {
+
+        let driverObj = {
+            nic: $('#driverNIC').val(),
+            fullName: $('#driverFullName').val(),
+            address: $('#driverAddress').val(),
+            contact: $('#driverContact').val(),
+        };
+        $.ajax({
+            url: "https://carsys.azurewebsites.net/api/v1/driver",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(driverObj),
+            success: function (resp) {
+                if (resp.state === true) {
+                    alert(resp.message);
+                    $('#adminDriverAddModel').modal('hide');
+                    loadCarsToTable();
+                } else {
+                    alert(resp.message);
+                }
+            }
+        });
+    }
+
 </script>
 </body>
 </html>
