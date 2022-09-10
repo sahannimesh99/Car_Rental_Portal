@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Car Rental</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .row {
+            margin-left: -30px;
+            margin-right: -50px;
+        }
+
+        .navbar {
+            height: 45px;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+        }
+
+        .header {
+            position: relative;
+            left: 100px;
+            /*top: 35px;*/
+            bottom: 310px;
+            font-size: 50px;
+            font-family: 'Cookie', cursive;
+            color: blue;
+        }
+
+        .vl {
+            position: relative;
+            right: 0px;
+            left: 30px;
+            bottom: 100px;
+            border-top: 3px solid green;
+            height: 23px;
+            width: 320px;
+        }
+
+        .header-welcome {
+            position: relative;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            bottom: 150px;
+            left: 50px;
+            color: black;
+            padding: 0;
+        }
+
+        .welcom2 {
+            position: relative;
+            bottom: 13px;
+        }
+
+        .welcomeDes1 {
+            position: relative;
+            font-size: 16px;
+            font-weight: lighter;
+        }
+
+        .welcomeDes2 {
+            position: relative;
+            font-size: 16px;
+            bottom: 16px;
+            font-weight: lighter;
+        }
+
+        .carDash {
+            position: relative;
+            width: 900px;
+            height: 350px;
+            bottom: 30px;
+            border-radius: 20px;
+        }
+
+        .v2 {
+            position: relative;
+            right: 0px;
+            left: 125px;
+            bottom: 160px;
+            border-top: 3px solid blue;
+            height: 10px;
+            width: 1150px;
+        }
+
+        .c1 {
+            position: relative;
+            right: 530px;
+            top: 150px;
+            height: 20px;
+            width: 20px;
+            background-color: coral;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .c2 {
+            position: relative;
+            right: 500px;
+            top: 200px;
+            height: 20px;
+            width: 20px;
+            background-color: deeppink;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .c3 {
+            position: relative;
+            right: 430px;
+            top: 250px;
+            height: 20px;
+            width: 20px;
+            background-color: cornflowerblue;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .c4 {
+            position: relative;
+            right: 385px;
+            top: 300px;
+            height: 20px;
+            width: 20px;
+            background-color: green;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .c5 {
+            position: relative;
+            right: 320px;
+            top: 350px;
+            height: 20px;
+            width: 20px;
+            background-color: yellow;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .jumbotron {
+            position: relative;
+            bottom: 160px;
+        }
+
+        .v3 {
+            position: relative;
+            right: 0px;
+            left: 130px;
+            bottom: 140px;
+            border-top: 3px solid blue;
+            height: 10px;
+            width: 1150px;
+        }
+
+        .site-footer {
+            background-color: #fff;
+            padding: 45px 0 20px;
+            font-size: 14px;
+            line-height: 24px;
+            color: black;
+        }
+
+        .site-footer hr {
+            border-top-color: #bbb;
+            opacity: 0.5
+        }
+
+        .site-footer hr.small {
+            margin: 20px 0
+        }
+
+        .site-footer h6 {
+            color: black;
+            font-size: 15px;
+            text-transform: uppercase;
+            margin-top: 5px;
+            letter-spacing: 2px
+        }
+
+        .site-footer a {
+            color: black;
+        }
+
+        .site-footer a:hover {
+            color: #3366cc;
+            text-decoration: none;
+        }
+
+        .footer-links {
+            padding-left: 0;
+            list-style: none
+        }
+
+        .footer-links li {
+            display: block
+        }
+
+        .footer-links a {
+            color: #737373
+        }
+
+        .footer-links a:active, .footer-links a:focus, .footer-links a:hover {
+            color: #3366cc;
+            text-decoration: none;
+        }
+
+        .footer-links.inline li {
+            display: inline-block
+        }
+
+        .site-footer .social-icons {
+            text-align: right
+        }
+
+        .site-footer .social-icons a {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            margin-left: 6px;
+            margin-right: 0;
+            border-radius: 100%;
+            background-color: #33353d
+        }
+
+        .copyright-text {
+            margin: 0
+        }
+
+        @media (max-width: 991px) {
+            .site-footer [class^=col-] {
+                margin-bottom: 30px
+            }
+        }
+
+        @media (max-width: 767px) {
+            .site-footer {
+                padding-bottom: 0
+            }
+
+            .site-footer .copyright-text, .site-footer .social-icons {
+                text-align: center
+            }
+        }
+
+        .social-icons {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none
+        }
+
+        .social-icons li {
+            display: inline-block;
+            margin-bottom: 4px
+        }
+
+        .social-icons li.title {
+            margin-right: 15px;
+            text-transform: uppercase;
+            color: #96a2b2;
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .social-icons a {
+            background-color: #eceeef;
+            color: #818a91;
+            font-size: 15px;
+            display: inline-block;
+            line-height: 44px;
+            width: 44px;
+            height: 44px;
+            text-align: center;
+            margin-right: 8px;
+            border-radius: 100%;
+            -webkit-transition: all .2s linear;
+            -o-transition: all .2s linear;
+            transition: all .2s linear
+        }
+
+        .social-icons a:active, .social-icons a:focus, .social-icons a:hover {
+            color: #fff;
+            background-color: #29aafe
+        }
+
+        .social-icons.size-sm a {
+            line-height: 34px;
+            height: 34px;
+            width: 34px;
+            font-size: 13px
+        }
+
+        .social-icons a.facebook:hover {
+            background-color: #3b5998
+        }
+
+        .social-icons a.twitter:hover {
+            background-color: #00aced
+        }
+
+        .social-icons a.linkedin:hover {
+            background-color: #007bb6
+        }
+
+        .social-icons a.dribbble:hover {
+            background-color: #ea4c89
+        }
+
+        @media (max-width: 767px) {
+            .social-icons li.title {
+                display: block;
+                margin-right: 0;
+                font-weight: 600
+            }
+        }
+
+        .nav-link:hover {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">UnCommon Car-Rents</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Rent Car</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+    <button onclick="location.href='user/signup.html';" class="btn btn-dark mr-2 my-2 my-sm-0" type="button">Sign Up</button>
+    <button onclick="location.href='user/login.html';" class="btn btn-light mr-2 my-2 my-sm-0" type="button">Login</button>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="benz col-md-5" style="position: relative; left: 520px; top: 50px">
+                <img src="../src/assets/pictures/Benz mayback croped.jpg" style="width: 890px; height: 320px">
+            </div>
+
+            <div class="row" style="position:relative; top: 30px;">
+                <div class="header">
+                    <p>Uncommon Car-Rents</p>
+                    <div class="vl"></div>
+                    <img src="assessts/pictures/star%20green.png"
+                         style="width: 15px; height: 15px; position: relative; bottom: 169px; left: 365px">
+                    <img src="assessts/pictures/star%20green.png"
+                         style="width: 15px; height: 15px; position: relative; bottom: 169px; left: 360px">
+                    <img src="assessts/pictures/star%20green.png"
+                         style="width: 15px; height: 15px; position: relative; bottom: 169px; left: 355px">
+
+                    <div class="header-welcome">
+                        <p style="margin-top: 30px">Welcome to Uncommon.lk - one of </p>
+                        <p class="welcom2">largest Car-rental place in Sri Lanka ! </p>
+                        <p class="welcomeDes1">Rent a car for your purpose in different states. And be </p>
+                        <p class="welcomeDes2">a member of us to get promos...</p>
+
+                    </div>
+
+                    <div class="carInfo row">
+                        <img class="carDash" src="../src/assets/pictures/Car dashboard post.jpg"
+                             style="height: 330px; width: 850px; position:relative; right: 0px;">
+                        <p style=" font-family: 'Fira Sans', sans-serif; font-size: 18px; position: relative; left: 120px; top: 110px; color: black;">
+                            Join us now. Sign in by hear
+                        </p>
+                        <a href="login.html">
+                            <button class="btn btn-primary text-center"
+                                    style="position: relative; font-family: 'Fira Sans', sans-serif; width: 90px; height: 34px; border-radius: 30px; top: 150px; right: 40px; font-size: 13px;"
+                                    type="button">
+                                Sign up
+                            </button>
+                        </a>
+                    </div>
+                    <div class="chart row" style="position:relative; top: 50px; left: 40px;">
+                        <p style="position:relative; font-family: 'Fira Sans', sans-serif; font-size: 22px; font-weight: bold; color: black; left: 480px;">
+                            The most Renting vehicles...</p>
+                        <img src="../src/assets/pictures/bar chart edited.png"
+                             style="position:relative; left: 520px; width: 280px; height: 350px; top: 50px">
+                        <div class="row col-lg-2" style="position: relative; left: 80px">
+                            <div class="row">
+                                <div class="c1"></div>
+                                <h1 style="position:relative; top: 150px; right: 500px; font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; ">
+                                    Suzuki alto
+                                </h1>
+                            </div>
+                            <div class="row">
+                                <div class="c2 row"></div>
+                                <h1 style="position:relative; top: 200px; right: 420px; font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; ">
+                                    Suzuki Every
+                                </h1>
+                            </div>
+                            <div class="row">
+                                <div class="c3 row"></div>
+                                <h1 style="position:relative; top: 248px; right: 350px; font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; ">
+                                    Suzuki Wagon R
+                                </h1>
+                            </div>
+                            <div class="row">
+                                <div class="c4 row"></div>
+                                <h1 style="position:relative; top: 300px; right: 300px; font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; ">
+                                    Suzuki spacia</h1>
+                            </div>
+                            <div class="row">
+                                <div class="c5 row"></div>
+                                <h1 style="position:relative; top: 350px; right: 230px; font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; ">
+                                    Toyota Aqua
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="v2"></div>
+                <br>
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="jumbotron jumbotron-fluid"
+                                 style="border-radius: 7px; height: 530px; position:relative; right: 30px;">
+                                <p style="position:relative; left: 420px; bottom: 40px; font-family: 'Fira Sans', sans-serif; font-size: 22px; color: black; font-weight: bold">
+                                    Vehicles for the customer’s purpose . .</p>
+                                <div class="container">
+                                    <div class="row" style="position:relative; left: 60px">
+                                        <div class="row col-md-3">
+                                            <img src="../src/assets/pictures/Allion.jpg"
+                                                 style="width: 270px; height:150px; position:relative; left: 50px; top: 20px; border-radius: 15px;">
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; font-weight: bold; position:relative; top: 60px; left: 130px">
+                                                Wedding cars</p>
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 15px; color: black; position:relative; left: 70px; top: 55px">
+                                                Rent a car for your dream wedding. Choose from top brand as your
+                                                wish.</p>
+                                        </div>
+                                        <div class="row col-md-3">
+                                            <img src="../src/assets/pictures/wagon r.jpg"
+                                                 style="width: 250px; height:150px; border-radius: 15px; position: relative; top: 20px; left: 190px;">
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; font-weight: bold; position:relative; left: 240px; top: 60px;">
+                                                Light purpose cars</p>
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 15px; color: black; position:relative; left: 200px; top: 55px">
+                                                Get a car to go and enjoy with few people and high fuel consumption with
+                                                row budget.</p>
+                                        </div>
+                                        <div class="row col-md-3">
+                                            <img src="../src/assets/pictures/benz mayback new croped.jpg"
+                                                 style="width: 270px; height:150px;  position: relative; top: 20px; left: 320px;  border-radius: 15px;">
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 18px; color: black; font-weight: bold; position:relative; left: 370px; top: 60px;">
+                                                Luxury purpose cars</p>
+                                            <p style="font-family: 'Fira Sans', sans-serif; font-size: 15px; color: black; position:relative; left: 330px; top: 55px">
+                                                Rent a car for the trip or occation you want to as a luxurious and
+                                                comfortable ride. </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="v3"></div>
+                <!-- Site footer -->
+                <footer class="site-footer" style="position:relative; right: 20px; bottom: 20px ; width: 1500px">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <h6>About</h6>
+                                <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative
+                                    to help the upcoming programmers with the code. Scanfcode focuses on providing the
+                                    most efficient code or snippets as the code wants to be simple. We will help
+                                    programmers build up concepts in different programming languages that include C,
+                                    C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
+                            </div>
+
+                            <div class="col-xs-6 col-md-3">
+                                <h6>Categories</h6>
+                                <ul class="footer-links">
+                                    <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+                                    <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a>
+                                    </li>
+                                    <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                                    <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                                    <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                                    <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="col-xs-6 col-md-3">
+                                <h6>Quick Links</h6>
+                                <ul class="footer-links">
+                                    <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                                    <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                                    <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                                    <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                                    <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="">
+                                <p class="copyright-text" style="padding: 0; margin: 0;">Copyright &copy; 2020 All
+                                    Rights Reserved by
+                                    <a href="#">Scanfcode</a>.
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p style="font-family: 'Cookie', cursive; color: blue; position:relative; left: 550px; font-size: 33px; top: 5px">
+                                    Uncommon Car-Rents
+                                </p>
+                                <img src="../src/assets/pictures/car_rent_logo_croped.png"
+                                     style="height: 30px; width: 80px; position: relative; left: 570px">
+                            </div>
+
+                            <div class="">
+                                <ul class="social-icons" style="position:relative; right: 80px;">
+                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                                    <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery-3.5.1.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

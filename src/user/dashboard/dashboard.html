@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title><meta charset="UTF-8">
+    <link href="../../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="../../assets/css/dashboard.css" rel="stylesheet">
+</head>
+<body onload="checkAuth()">
+<nav class="nav bg-purple justify-content-center">
+    <a class="nav-link text-white" href="#"><i aria-hidden="true" class="fa fa-home"></i> Home</a>
+    <a class="nav-link text-white" data-target="#updateUserDetail" data-toggle="modal" href="#" role="button"><i
+            aria-hidden="true" class="fa fa-user-cog"></i> Settings</a>
+    <a class="nav-link text-white" onclick="logOut()" role="button">Logout <i aria-hidden="true"
+                                                                              class="fa fa-sign-out-alt"></i></a>
+</nav>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12 p-5">
+            <h1 id="main-title"><i aria-hidden="true" class="fa fa-tachometer-alt"></i>Hi, Easy Car Rental System</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-between">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
+            <a class="text-decoration-none" href="#" onclick="carSearchPaneController()">
+                <div class="card p-3 shadow bg-purple text-center border-0">
+                    <div class="card-body">
+                        <i aria-hidden="true" class="fa fa-car fa-2x"></i>
+                        <hr/>
+                        <p class="card-title lead">Find a Car</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
+            <a class="text-decoration-none" href="#" onclick="loadAllRequests()">
+                <div class="card p-3 shadow bg-purple text-center border-0">
+                    <div class="card-body">
+                        <i aria-hidden="true" class="fa fa-edit fa-2x"></i>
+                        <hr/>
+                        <p class="card-title lead">Reserved</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
+            <a class="text-decoration-none" data-target="#updateUserDetail" data-toggle="modal" href="#" role="button">
+                <div class="card p-3 shadow bg-purple text-center border-0">
+                    <div class="card-body">
+                        <i aria-hidden="true" class="fa fa-user-cog fa-2x"></i>
+                        <hr/>
+                        <p class="card-title lead">Settings</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
+            <a class="text-decoration-none" href="#">
+                <div class="card p-3 shadow bg-purple text-center border-0">
+                    <div class="card-body">
+                        <i aria-hidden="true" class="fa fa-envelope fa-2x"></i>
+                        <hr/>
+                        <p class="card-title lead">Enquiry</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 p-2">
+            <a class="text-decoration-none" data-target="#modelHELP" data-toggle="modal" href="#">
+                <div class="card p-3 shadow bg-purple text-center border-0">
+                    <div class="card-body">
+                        <i aria-hidden="true" class="fa fa-question fa-2x"></i>
+                        <hr/>
+                        <p class="card-title lead">Support</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+<div class="container" id="carSearchPane" style="padding: 10px; background-color: #f5f5f5; display: none;">
+    <div class="form-row align-content-center">
+        <div class="form-group col-md-4">
+            <label for="pick-upDate">Pick-Up Date</label>
+            <input class="form-control" id="pick-upDate" type="date">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="return-Date">Return Date</label>
+            <input class="form-control" id="return-Date" type="date">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="carType">Car Type</label>
+            <select class="form-control" id="carType">
+                <option selected>Choose...</option>
+                <option value="General">General</option>
+                <option value="Premium">Premium</option>
+                <option value="Luxury">Luxury</option>
+            </select>
+        </div>
+        <div class="col-auto" style="margin-top: 31px; margin-left: 5px;">
+            <button class="btn btn-primary" id="btnFind" type="button">Find</button>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row" id="carGallery">
+        </div>
+    </div>
+</div>
+<div class="container" id="reservedPane" style="padding: 10px; background-color: #f5f5f5; display: block;">
+    <table class="table table-hover">
+        <thead class="bg-primary text-white">
+        <tr>
+            <th scope="col">Ref ID</th>
+            <th scope="col">Pick Up Date</th>
+            <th scope="col">Drop Date</th>
+            <th scope="col">Request Date</th>
+            <th scope="col">Car No</th>
+            <th scope="col">Driver ID</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody id="reservedTableBody">
+        </tbody>
+    </table>
+</div>
+<footer class="footer">
+    <div class="container text-center p-3">
+        <p class="small text-muted">All Right Reserved 2020</p>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="requestModalLabel" class="modal fade" id="makeRequestModel" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestModalLabel">Make you Car Rent Request</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="userId">Customer ID</label>
+                            <input class="form-control" disabled id="userId" type="text">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="vehicleId">Vehicle ID</label>
+                            <input class="form-control" disabled id="vehicleId" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="carPickUpDate">Pick Up Date</label>
+                        <input class="form-control" id="carPickUpDate" type="date">
+                    </div>
+                    <div class="col">
+                        <label for="carReturnDate">Return Date</label>
+                        <input class="form-control" id="carReturnDate" type="date">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="carPickUpNote">Pick Up Note</label>
+                        <textarea class="form-control" id="carPickUpNote" rows="3"></textarea>
+                    </div>
+                    <div class="col">
+                        <label for="carReturnNote">Return Note</label>
+                        <textarea class="form-control" id="carReturnNote" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="slipUpload">Upload Bank Slip Image</label>
+                        <input class="form-control-file" id="slipUpload" name="imgSlip" type="file">
+                    </div>
+                    <div class="col-3">
+                        <label for="waiverAmount">Waiver Amount</label>
+                        <input class="form-control" disabled id="waiverAmount" type="text">
+                    </div>
+                    <div class="col-3">
+                        <label for="needDriver">Need a Driver?</label>
+                        <input class="form-check-input" id="needDriver" style="margin-left: 18px" type="checkbox">
+                        <input class="form-control" disabled id="driverId" type="text">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" onclick="sourceReq()" type="button">Make</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="updateUserDetailLabel" class="modal fade" id="updateUserDetail" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserDetailLabel">User Profile Settings</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary" id="btnUserSettings" type="button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Js-->
+<script src="../../assets/js/jquery-3.5.1.min.js"></script>
+<script src="../../assets/js/jquery.cookie.js"></script>
+<script src="../../assets/js/daterangepicker.js"></script>
+<script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/fontawesome/js/all.min.js"></script>
+<script src="../../assets/js/main.js"></script>
+<script>
+    function checkAuth() {
+        if (!!$.cookie('user-id')) {
+            $('#main-title').text(`Hi, ${$.cookie('user-email').split('@')[0]}`);
+        } else {
+            location.href = '../login.html';
+        }
+    }
+
+    function logOut() {
+        if (!!$.cookie('user-id') && !!$.cookie('user-email')) {
+            $.removeCookie('user-id', {path: '/'});
+            $.removeCookie('user-email', {path: '/'});
+            location.reload();
+        } else {
+            location.reload();
+        }
+    }
+
+    function makeid(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+    function showModel(id) {
+        let carNo = $(id).attr('id');
+        let modelId = makeid(5);
+        $.ajax({
+            url: "carsys.azurewebsites.net/api/v1/car/" + carNo,
+            method: "GET",
+            contentType: "application/json",
+            success: function (resp) {
+                if (resp.state === true) {
+                    let data = resp.data;
+                    var myModel = `
+        <div class="modal fade" id="${modelId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">${data.brand}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="card-img" src="../../assets/images/card2.jpeg" alt="">
+                <hr>
+                <div class="row">
+                    <div class="col-4"><strong>Registration No: </strong>${data.regNo}</div>
+                    <div class="col-3"><strong>Type: </strong>${data.type}</div>
+                    <div class="col-3"><strong>Passenger Count: </strong>${data.passengerCount}</div>
+                    <div class="col-2"><strong>Colour: </strong>${data.color}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col"><strong>Transmission Type: </strong>${data.transmissionType}</div>
+                    <div class="col"><strong>Fuel Type: </strong>${data.fuelType}</div>
+                    <div class="col"><strong>Driven KM: </strong>${data.drivenKm}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col"><strong>Daily Rate: </strong>${data.dailyRate}</div>
+                    <div class="col"><strong>Monthly Rate: </strong>${data.monthlyRate}</div>
+                    <div class="col"><strong>Daily Free KM: </strong>${data.dailyFreeKm}</div>
+                    <div class="col"><strong>Monthly Free KM: </strong>${data.monthlyFreeKm}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col"><strong>Price for Extra KM: </strong>${data.extraKmPrice}</div>
+                    <div class="col"><strong>Waiver Amount: </strong>${data.waiverAmount}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+            </div>
+        </div>
+        `;
+                    $('body').append(myModel);
+                    $('#' + modelId).modal('show');
+                } else {
+                    alert(resp.message);
+                }
+            }
+        });
+    }
+
+    $('#needDriver').change(function (e) {
+        let pik = $('#carPickUpDate').val();
+        let ret = $('#carReturnDate').val();
+        if ($('#needDriver').is(":checked")) {
+            $.ajax({
+                url: "carsys.azurewebsites.net/api/v1/driver/find?fromDate=" + pik + "&toDate=" + ret + "",
+                method: "get",
+                success: function (resp) {
+                    if (resp.state === true) {
+                        let nic = resp.data[Math.floor(Math.random() * resp.data.length)].nic;
+                        $('#driverId').val(nic);
+                    } else {
+                        $('#driverId').val("Sorry Drivers Not Available.");
+                    }
+                }
+            });
+        } else {
+            $('#driverId').val("");
+        }
+    });
+
+
+    function sourceReq() {
+        let reqData;
+        if ($('#needDriver').is(":checked")) {
+            reqData = {
+                palaceDate: new Date(),
+                fromDate: $('#carPickUpDate').val(),
+                toDate: $('#carReturnDate').val(),
+                pickUpNote: $('#carPickUpNote').val(),
+                returnNote: $('#carReturnNote').val(),
+                waiverAmount: $('#waiverAmount').val(),
+                state: "Pending",
+                customer: {
+                    nic: $('#userId').val()
+                },
+                car: {
+                    regNo: $('#vehicleId').val()
+                },
+                driver: {
+                    nic: $('#driverId').val()
+                }
+            };
+        } else {
+            reqData = {
+                palaceDate: new Date(),
+                fromDate: $('#carPickUpDate').val(),
+                toDate: $('#carReturnDate').val(),
+                pickUpNote: $('#carPickUpNote').val(),
+                returnNote: $('#carReturnNote').val(),
+                waiverAmount: $('#waiverAmount').val(),
+                state: "Pending",
+                customer: {
+                    nic: $('#userId').val()
+                },
+                car: {
+                    regNo: $('#vehicleId').val()
+                }
+            };
+        }
+
+        $.ajax({
+            url: "carsys.azurewebsites.net/api/v1/rent",
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify(reqData),
+            success: function (resp) {
+                if (resp.state === true) {
+                    $('#makeRequestModel').modal('hide');
+                    alert(resp.message);
+                } else {
+                    alert(resp.message);
+                }
+            }
+        });
+    }
+
+    function makeRequest(id) {
+        let carId = $(id).attr('name');
+        let customerID = $.cookie('user-id');
+        $('#userId').val(customerID);
+        $('#vehicleId').val(carId);
+        let waiverAmount = $('#waiverAmount').val($(id).attr('about'));
+        $('#makeRequestModel').modal('show');
+    }
+
+    let count = 1;
+    let tmp = 1;
+    $('#btnFind').click(function () {
+        let pickupDate = $('#pick-upDate').val();
+        let returnDate = $('#return-Date').val();
+        let carType = $('#carType').val();
+        $.ajax({
+            type: "GET",
+            url: "carsys.azurewebsites.net/api/v1/car/find?fromDate=" + pickupDate + "&toDate=" + returnDate + "&type=" + carType + "",
+            success: function (resp) {
+                $('#carGallery').empty();
+                let arr = resp.data;
+                if (resp.state === true) {
+                    for (let x in arr) {
+                        $('#carGallery').append(`<div class="col-md-3">
+                    <div class="row mt-2 ml-1 align-content-between">
+                        <div class="col">
+                            <div class="card" style="width: 15rem;">
+                                <img alt="..." class="card-img-top" src="../../assets/images/card.jpeg">
+                                <div class="card-body align-content-center">
+                                    <h5 class="card-title">${arr[x].brand}</h5>
+                                    <p class="card-text">
+                                        <strong>Car Type:</strong> ${arr[x].type} <br>
+                                        <strong>Colour :</strong>${arr[x].color} <br>
+                                        <strong>Transmission Type :</strong>${arr[x].transmissionType} <br>
+                                        <strong>Fuel Type :</strong>${arr[x].fuelType} <br>
+                                        <strong>Passenger Count :</strong>${arr[x].passengerCount}
+                                     </p>
+                                     <hr>
+                                        <div class="row">
+                                            <div class="col">
+                                            <a id="${arr[x].regNo}" class="btn btn-primary btn-sm" onclick="showModel(this)">See More</a><br>
+                                            </div>
+                                            <div class="col">
+                                            <a class="btn btn-success btn-sm" about="${arr[x].waiverAmount}" name="${arr[x].regNo}" onclick="makeRequest(this)">Book Now</a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                    }
+                } else {
+                    $('#carGallery').append(`<h5 class="modal-title">Oops, Cars Not Available between these days.</h5>`);
+                }
+            }
+        });
+    });
+
+    function carSearchPaneController() {
+        $('#carSearchPane').css('display', 'block');
+        $('#reservedPane').css('display', 'none');
+    }
+
+    //    reserved section
+
+    function viewDriver(id) {
+        let driverID = $(id).text();
+        let driverModelId = makeid(8);
+        $.ajax({
+            url: "carsys.azurewebsites.net/api/v1/driver/" + driverID,
+            type: "GET",
+            success: function (resp) {
+                if (resp.state === true) {
+                    let data = resp.data;
+                    let driverModel = `
+                        <div class="modal fade" id="${driverModelId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Driver's Details.</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col"><strong>NIC: </strong></div>
+                                            <div class="col">${data.nic}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><strong>Full Name: </strong></div>
+                                            <div class="col">${data.fullName}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><strong>Address</strong></div>
+                                            <div class="col">${data.address}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><strong>Contact No</strong></div>
+                                            <div class="col">${data.contact}</div>
+                                        </div>
+                                    </div>
+                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    $('body').append(driverModel);
+                    $('#' + driverModelId).modal('show');
+                }
+            }
+        });
+    }
+
+    function loadAllRequests() {
+        $('#carSearchPane').css('display', 'none');
+        $('#reservedPane').css('display', 'block');
+
+        $('#reservedTableBody').empty();
+        $.ajax({
+            url: "carsys.azurewebsites.net/api/v1/rent/" + $.cookie('user-id'),
+            type: "GET",
+            success: function (resp) {
+                if (resp.state === true) {
+                    let data = resp.data;
+                    for (let i in data) {
+                        let row = `<tr>
+                                        <th scope="row">${data[i].reqId}</th>
+                                        <td>${data[i].fromDate}</td>
+                                        <td>${data[i].toDate}</td>
+                                        <td>${data[i].palaceDate}</td>
+                                        <td>${data[i].car.regNo}</td>
+                                        <td><a class="badge badge-light" onclick="viewDriver(this)" role="button">${data[i].driver == null ? "No Driver Requested." : data[i].driver.nic}</a></td>
+                                        <td>${data[i].reason == null ? "No Reason" : data[i].reason}</td>
+                                        <td class="badge badge-pill ${data[i].state == "Pending" ? "badge-primary" : data[i].state == "Approved" ? "badge-success" : data[i].state == "Rejected" ? "badge-danger" : "badge-secondary"}">${data[i].state}</td>
+                                    </tr>`;
+                        $('#reservedTableBody').append(row);
+                    }
+
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
